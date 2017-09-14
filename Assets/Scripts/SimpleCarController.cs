@@ -7,19 +7,19 @@ public class SimpleCarController : MonoBehaviour {
 	public float maxMotorTorque; // maximum torque the motor can apply to wheel
 	public float maxSteeringAngle; // maximum steer angle the wheel can have
 
-	private Camera camera;
+	//private Camera camera;
 	private float speed;
 	public float maxSpeed = 1f;
 	private Rigidbody rigidBody;
 
 	void Start(){
 		rigidBody = GetComponent<Rigidbody> ();
-		camera = FindObjectOfType<Camera> ();
+		//camera = FindObjectOfType<Camera> ();
 	}
 
 	public void FixedUpdate()
 	{
-		camera.transform.position = transform.position + new Vector3 (0, 20, -20);
+		//camera.transform.position = transform.position + new Vector3 (0, 20, -20);
 
 		speed = rigidBody.velocity.magnitude;
 
