@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CraneDetent : MonoBehaviour {
 
-	private Collider collider;
+	private Collider Detentcollider;
 
 	// Use this for initialization
 	void Start () {
-		collider = GetComponent<Collider> ();
+		Detentcollider = GetComponent<Collider> ();
 	}
 	
 	// Update is called once per frame
@@ -16,13 +16,16 @@ public class CraneDetent : MonoBehaviour {
 		
 	}
 
-	public void CraneActive(){
-		collider.enabled = false;
+	public void ExtendSection(){
+		Detentcollider.enabled = false;
 	}
 
-	public void CraneInactive(){
-		collider.enabled = true;
+	public void DetentActive(){
+		Invoke ("EnableDetent", 5);
 	}
 
+	void EnableDetent(){
+		Detentcollider.enabled = true;
+	}
 
 }

@@ -17,10 +17,10 @@ public class CraneSegment : MonoBehaviour {
 	}
 
 	public void ExtendSection(){
-		rigidBody.AddRelativeForce (0, 0,-200);
+		rigidBody.AddRelativeForce (0, 0,-100);
 	}
 
 	public void RetractSection(){
-		rigidBody.AddRelativeForce ( 0, 0,200);
+		rigidBody.AddRelativeForce ( 0, 0,100);
 	}
 }

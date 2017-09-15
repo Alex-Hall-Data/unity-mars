@@ -49,7 +49,12 @@
      <Compile Include="Assets\Scripts\CraneController.cs" />
      <Compile Include="Assets\Scripts\CraneDetent.cs" />
      <Compile Include="Assets\Scripts\CraneSegment.cs" />
+     <Compile Include="Assets\Scripts\CraneTower.cs" />
+     <Compile Include="Assets\Scripts\GrabberController.cs" />
+     <Compile Include="Assets\Scripts\LeftGrabberController.cs" />
      <Compile Include="Assets\Scripts\PlayerCamera.cs" />
+     <Compile Include="Assets\Scripts\RightGrabberController.cs" />
+     <Compile Include="Assets\Scripts\RotationFreezer.cs" />
      <Compile Include="Assets\Scripts\SimpleCarController.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />

@@ -4,61 +4,107 @@ using UnityEngine;
 
 public class CraneController : MonoBehaviour {
 
-	private HingeJoint[] joints;
-	private HingeJoint joint;
-	private JointLimits jointLimits;
+
 	private Rigidbody rigidBody;
 	private Rigidbody[] rigidBodies;
 	private ConfigurableJoint[] slidingJoints;
+	private bool craneRotationLocked =true;
 	public bool craneActive;
-	public bool craneRotating;
+	public bool craneRotatingOut;
+	public bool craneRotatingBack;
 	public bool craneExtending;
 	public bool craneRetracting;
+	public bool towerExtending;
+	public bool towerRetracting;
+	public bool grabberLowering;
+	public bool grabberRaising;
+	public bool grabberOpening;
+	public bool grabberClosing;
+	private Rigidbody towerRB;
 
 	// Use this for initialization
 	void Start () {
 		rigidBodies = GetComponentsInChildren<Rigidbody> ();
-		rigidBody = rigidBodies [0];
-		joints = GetComponentsInChildren<HingeJoint> ();
-		joint = joints [0];
-		jointLimits = joint.limits;
+		towerRB = rigidBodies [0];
+		rigidBody = rigidBodies [1];
 		slidingJoints = GetComponentsInChildren<ConfigurableJoint> ();
 	}
 
 
 	void Update () {
-		if (craneActive) {
-			BroadcastMessage ("CraneActive");
-			jointLimits.min = -90;
-			jointLimits.max = 90;
-			joint.limits = jointLimits;
 
-			if (craneRotating) {
-				RotateCrane ();
+		if (craneActive) {
+			if (craneRotationLocked) {
+				BroadcastMessage ("UnlockCraneRotation");
+				craneRotationLocked = false;
+			}
+
+			if (craneRotatingOut) {
+				RotateCraneOut ();
+			}
+
+			if (craneRotatingBack) {
+				RotateCraneBack ();
 			}
 
 			if (craneExtending) {
 				BroadcastMessage ("ExtendSection");
+			} else {
+				BroadcastMessage ("DetentActive");
 			}
 
 			if (craneRetracting) {
 				BroadcastMessage ("RetractSection");
 			}
 
+			if (towerExtending) {
+				towerRB.AddRelativeForce (0, 1500f, 0);
+				BroadcastMessage ("ExtendTower");
+			}
+
+			if (towerRetracting) {
+				towerRB.AddRelativeForce (0, -1000f, 0);
+				BroadcastMessage ("ExtendTower");
+			}
+
+			if (grabberLowering) {
+				BroadcastMessage ("LowerGrabber");
+			}
+
+			if (grabberRaising) {
+				BroadcastMessage ("RaiseGrabber");
+			}
+
+			if (grabberOpening) {
+				BroadcastMessage ("OpenGrabber");
+			}
+
+			if (grabberClosing) {
+				BroadcastMessage ("CloseGrabber");
+			}
+
+
+
 
 		} else {
-			BroadcastMessage ("CraneInactive");
-			jointLimits.min = 0;
-			jointLimits.max = 0;
-			joint.limits = jointLimits;
+			//BroadcastMessage ("RetractTower");
 
+			//unlock crane rotation
+			if (!craneRotationLocked) {
+				BroadcastMessage ("LockCraneRotation");
+				craneRotationLocked = true;
+			}
 
 		}
 
 
 }
 
-	void RotateCrane(){
-		rigidBody.AddRelativeTorque (new Vector3 (0, -100, 0));
+	void RotateCraneOut(){
+		rigidBody.AddRelativeTorque (new Vector3 (0, -1000, 0));
+	}
+
+	void RotateCraneBack(){
+		rigidBody.AddRelativeTorque (new Vector3 (0, 1000, 0));
 	}
 }
