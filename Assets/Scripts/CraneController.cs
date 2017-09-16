@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO - the crane movements currently run from public bools - need to make a method which carries out the whole sequence on a key press
+
 public class CraneController : MonoBehaviour {
 
 
@@ -32,6 +34,8 @@ public class CraneController : MonoBehaviour {
 
 
 	void Update () {
+
+
 
 		if (craneActive) {
 			if (craneRotationLocked) {

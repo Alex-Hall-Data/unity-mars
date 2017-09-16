@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour {
 
 	private GameObject player;
-	private static float defaultZOffset = -20f;
-	private static float defaultYOffset = 20f;
+	private static float defaultZOffset = -50f;
+	private static float defaultYOffset = 50f;
 	private static float defaultXOffset = 0f;
 	private float zOffset;
 	private float xOffset;
