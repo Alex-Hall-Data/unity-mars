@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\GliderController.cs" />
+     <Compile Include="Assets\Scripts\BoosterController.cs" />
      <Compile Include="Assets\Scripts\CraneController.cs" />
      <Compile Include="Assets\Scripts\CraneDetent.cs" />
      <Compile Include="Assets\Scripts\CraneSegment.cs" />

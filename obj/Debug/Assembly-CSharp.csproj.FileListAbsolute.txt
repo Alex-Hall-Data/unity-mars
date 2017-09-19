@@ -30,3 +30,5 @@ C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEngine.HoloLens
 C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEngine.VR.xml
 C:\Users\Alex\Documents\unity\Project-Gustav\obj\Debug\Assembly-CSharp.dll
 C:\Users\Alex\Documents\unity\Project-Gustav\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEditor.iOS.Extensions.Common.dll
+C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll

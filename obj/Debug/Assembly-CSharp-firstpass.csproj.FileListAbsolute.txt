@@ -29,3 +29,5 @@ C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEngine.VR.xml
 C:\Users\Alex\Documents\unity\Project-Gustav\obj\Debug\Assembly-CSharp-firstpass.csprojResolveAssemblyReference.cache
 C:\Users\Alex\Documents\unity\Project-Gustav\obj\Debug\Assembly-CSharp-firstpass.dll
 C:\Users\Alex\Documents\unity\Project-Gustav\obj\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEditor.iOS.Extensions.Common.dll
+C:\Users\Alex\Documents\unity\Project-Gustav\Temp\bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll

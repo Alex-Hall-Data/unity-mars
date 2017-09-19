@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO - the crane movements currently run from public bools - need to make a method which carries out the whole sequence on a key press
+		//should alsomoveall physics to fiedupdate = not update
 
 public class CraneController : MonoBehaviour {
 
