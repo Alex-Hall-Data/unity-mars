@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GliderController : MonoBehaviour {
+public class Atmosphere : MonoBehaviour {
+
+
+	public float airDensity=0.02f;
+	public float airPressure = 600f;
 
 	// Use this for initialization
 	void Start () {

@@ -91,8 +91,12 @@ public class PlayerCamera : MonoBehaviour {
 
 
 			//rotate camera with target 
-			//transform.eulerAngles=new Vector3(xRotation,yRotation,zRotation);
-			transform.LookAt(player.transform);
+
+			//transform.LookAt(player.transform);
+			var relativeUp =player.transform.TransformDirection(Vector3.forward);
+			var relativePos = player.transform.position - transform.position;
+			transform.rotation = Quaternion.LookRotation (relativePos, relativeUp);
+
 
 			//use inverse tan of altitude to get distanceabovecamera with alttude - use transform.up to move camera
 	}
