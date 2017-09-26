@@ -46,6 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\QuaternionController\Sample\Scripts\ControlledObject.cs" />
+     <Compile Include="Assets\QuaternionController\Sample\Scripts\SampleScript.cs" />
+     <Compile Include="Assets\QuaternionController\Scripts\PidController.cs" />
+     <Compile Include="Assets\QuaternionController\Scripts\PidQuaternionController.cs" />
+     <Compile Include="Assets\QuaternionController\Scripts\QuaternionExtensions.cs" />
      <Compile Include="Assets\Scripts\Atmosphere.cs" />
      <Compile Include="Assets\Scripts\BoosterController.cs" />
      <Compile Include="Assets\Scripts\CraneController.cs" />
@@ -55,6 +60,7 @@
      <Compile Include="Assets\Scripts\GliderController.cs" />
      <Compile Include="Assets\Scripts\GrabberController.cs" />
      <Compile Include="Assets\Scripts\LeftGrabberController.cs" />
+     <Compile Include="Assets\Scripts\PIDController.cs" />
      <Compile Include="Assets\Scripts\PlayerCamera.cs" />
      <Compile Include="Assets\Scripts\RightGrabberController.cs" />
      <Compile Include="Assets\Scripts\RotationFreezer.cs" />

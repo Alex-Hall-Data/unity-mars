@@ -7,8 +7,8 @@ public class BoosterController : MonoBehaviour {
 	public float burnTime=10f;
 	public float thrust = 2000;
 
-	private bool boosterUsed;
-	private bool boosterActive;
+	public bool boosterUsed;
+	public bool boosterActive;
 	private float elapsedBurnTime=0f;
 	private Rigidbody RB;
 
@@ -27,8 +27,10 @@ public class BoosterController : MonoBehaviour {
 		}
 
 		if (boosterActive && elapsedBurnTime < burnTime) {
-			RB.AddForce (transform.forward*thrust);
+			RB.AddForce (transform.forward * thrust);
 			elapsedBurnTime += Time.deltaTime;
+		} else {
+			boosterActive = false;
 		}
 	}
 }

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO add compressed gas thrusters (aerodynamics dont work on Mars!)
+//figure out how to maintain speed (trade vertial speed to horizontal speed)
 
 public class GliderController : MonoBehaviour {
 
-	public float A = 0.1f;
+	public float A = 0.1f;//front XSA
 	public float Cd = 0.03f;
+	public float AOA=0.01f;//angle of attack in radians
+	public float wingArea=0.1f;
 	public GameObject Cg ;
 	public GameObject Cp;
-	public float rollStabiliseTorqueStrength=5f;
 	public float maxAngularVelocity=1f;
+	public float rollTorque=200f;
+	public float pitchTorque=200f;
 
 	private float totalMass;
 	private float solidRocketMass;
@@ -20,10 +24,12 @@ public class GliderController : MonoBehaviour {
 	private Vector3 dragForceDirection;
 	private Vector3 dragForce;
 	private float airDensity;
-	private Vector3 weight;
 	private Transform solidRocket;
+	private bool boosterState;
 	private Rigidbody RB;
 	private GameObject atmosphere;
+	private float weight;
+
 
 
 	// Use this for initialization
@@ -33,50 +39,69 @@ public class GliderController : MonoBehaviour {
 		airDensity = FindObjectOfType<Atmosphere> ().airDensity;
 		RB.maxAngularVelocity = maxAngularVelocity;
 	}
-	
-	// Update is called once per frame
+
+
 	void FixedUpdate () {
+		//TODO this line is inefficiant - change so booster sends a single message when it becomes active/inactive
+		boosterState = FindObjectOfType<BoosterController> ().boosterActive;
+
 		solidRocketMass = solidRocket.GetComponent<Rigidbody> ().mass;
 		totalMass = solidRocketMass + RB.mass;
 
+		//pitch angle (relative to up)
+		float pitchAngle = Vector3.Angle (transform.forward,new Vector3 (0, 1, 0))*Mathf.PI/180;
+
 		gliderVelocity = RB.velocity;
+		float area = A;
+		float attack = AOA;
+
+		//movement
+		if (Input.GetKey ("a")) {
+			RB.AddRelativeTorque (0, 0, rollTorque);
+		}
+
+		if (Input.GetKey ("d")) {
+			RB.AddRelativeTorque (0, 0, -rollTorque);
+		}
+
+		if (Input.GetKey ("w")) {
+			RB.AddRelativeTorque ( pitchTorque,0,0);
+			attack=-AOA;//decrease angle of attack TODO - research this factor
+		}
+
+		if (Input.GetKey ("s")) {
+			RB.AddRelativeTorque (-pitchTorque,0,0);
+			area = 2 * A; //increase drag TODO - research better factor to increase this
+			attack=2*AOA;//increase angle of attack
+		}
+
 
 		//drag force
-		dragForceMagnitude=(Mathf.Pow(gliderVelocity.magnitude,2f))*A*Cd*airDensity*0.5f;
+		dragForceMagnitude=(Mathf.Pow(gliderVelocity.magnitude,2f))*area*Cd*airDensity*0.5f;
 		dragForceDirection = -RB.velocity.normalized;
 		dragForce = dragForceMagnitude * dragForceDirection;
 		RB.AddForceAtPosition (dragForce,Cp.transform.position);
 
-		//weight force - apply to Cg
-		weight=new Vector3(0,-totalMass*3.711f,0);
-		RB.AddForceAtPosition (weight, Cg.transform.position);
 
-		Debug.DrawLine (Cp.transform.position, Cp.transform.position+(dragForceDirection*10f),Color.red,Mathf.Infinity);
-		Debug.DrawLine (Cg.transform.position,Cg.transform.position+(weight),Color.blue,Mathf.Infinity);
+		//Debug.DrawLine (Cp.transform.position, Cp.transform.position+(dragForceDirection*10f),Color.red,Mathf.Infinity);
 
-		//lift force
 
-		//stabilising torque
-		float roll=transform.localRotation.eulerAngles.y;
-		float restoringTorqueMagnitude = 0;
 
-		//position dependant rotational torque
-		if (roll >=0  && roll <90) {
-			restoringTorqueMagnitude=-restoringTorqueMagnitude*(Mathf.Sin(roll*Mathf.PI/180)+0.001f);
-		}else if(roll>=90 && roll<180){
-			restoringTorqueMagnitude=restoringTorqueMagnitude*(Mathf.Sin(roll*Mathf.PI/180)+0.001f);
-		}else if(roll>=180 && roll<270){
-			restoringTorqueMagnitude=-restoringTorqueMagnitude*(Mathf.Sin(roll*Mathf.PI/180)+0.001f);
-		}else if(roll>=270 && roll<360){
-			restoringTorqueMagnitude=restoringTorqueMagnitude*(Mathf.Sin(roll*Mathf.PI/180)+0.001f);
-		} else {
-			restoringTorqueMagnitude = 0;
+		//TODO - apply life and weight to cg and cp
+		//lift force - only apply if booster is inactive
+		if (!boosterState) {
+			float Cl = 2 * Mathf.PI * attack;
+			float liftForce = Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) *wingArea / 2;
+			RB.AddForce (liftForce*transform.up);
+			print (RB.velocity.magnitude);
+			Debug.DrawLine (Cp.transform.position, Cp.transform.position+(transform.up*10f),Color.blue,Mathf.Infinity);
+			print (liftForce);
 		}
 
-		//now do angular velocity dependant restoring torque - or just use inverse of velocity in above formulae as a product 
-		
-			RB.AddRelativeTorque (0, 0, -restoringTorqueMagnitude);
-		
+		//weight force 
+		weight=totalMass*3.711f;
+		RB.AddForce (new Vector3(0, -weight, 0));
+		Debug.DrawLine (Cg.transform.position, Cg.transform.position+new Vector3(0, -weight, 0),Color.green,Mathf.Infinity);
 
 	}
 }
