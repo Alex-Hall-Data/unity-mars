@@ -3,10 +3,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BoosterController.cs">
     <Files>
       <File FileName="Assets\Scripts\Atmosphere.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GliderController.cs" Line="12" Column="18" />
-      <File FileName="Assets\Scripts\PlayerCamera.cs" Line="98" Column="75" />
-      <File FileName="Assets\Scripts\BoosterController.cs" Line="33" Column="26" />
-      <File FileName="Assets\Scripts\PIDController.cs" Line="44" Column="24" />
+      <File FileName="Assets\Scripts\GliderController.cs" Line="108" Column="5" />
+      <File FileName="Assets\Scripts\PlayerCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\BoosterController.cs" Line="34" Column="28" />
+      <File FileName="Assets\Scripts\PIDController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

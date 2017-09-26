@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO add compressed gas thrusters (aerodynamics dont work on Mars!)
-//figure out how to maintain speed (trade vertial speed to horizontal speed)
+//clamp the lift to a max
 
 public class GliderController : MonoBehaviour {
 
@@ -87,21 +87,29 @@ public class GliderController : MonoBehaviour {
 
 
 
-		//TODO - apply life and weight to cg and cp
-		//lift force - only apply if booster is inactive
-		if (!boosterState) {
-			float Cl = 2 * Mathf.PI * attack;
-			float liftForce = Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) *wingArea / 2;
-			RB.AddForce (liftForce*transform.up);
-			print (RB.velocity.magnitude);
-			Debug.DrawLine (Cp.transform.position, Cp.transform.position+(transform.up*10f),Color.blue,Mathf.Infinity);
-			print (liftForce);
-		}
-
 		//weight force 
 		weight=totalMass*3.711f;
 		RB.AddForce (new Vector3(0, -weight, 0));
 		Debug.DrawLine (Cg.transform.position, Cg.transform.position+new Vector3(0, -weight, 0),Color.green,Mathf.Infinity);
 
+
+		//TODO - apply life and weight to cg and cp
+		//lift force - only apply if booster is inactive
+		float liftForce;
+		if (!boosterState) {
+			float Cl = 2 * Mathf.PI * attack;
+
+			if (Input.GetKey ("s")) {
+				liftForce = Mathf.Clamp(Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) *wingArea / 2,-weight,2*weight);
+			}else if(Input.GetKey ("w")){
+				liftForce = Mathf.Clamp(Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) *wingArea / 2,-2*weight,weight);
+			}else{
+				liftForce = Mathf.Clamp (Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) * wingArea / 2, -weight, weight);
+			}
+			RB.AddForce (liftForce*transform.up);
+			print (RB.velocity.magnitude);
+			Debug.DrawLine (Cp.transform.position, Cp.transform.position+(transform.up*10f),Color.blue,Mathf.Infinity);
+			print (liftForce);
+		}
 	}
 }
