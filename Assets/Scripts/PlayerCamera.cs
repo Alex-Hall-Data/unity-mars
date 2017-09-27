@@ -50,7 +50,7 @@ public class PlayerCamera : MonoBehaviour {
 
 		//controller for glider
 		if (player.gameObject.GetComponent<GliderController>() != null) {
-			defaultZOffset = 10f;
+			defaultZOffset = 5f;//flag was 10
 			defaultYOffset = 10f;
 			defaultXOffset = -10f;
 
@@ -97,8 +97,6 @@ public class PlayerCamera : MonoBehaviour {
 			var relativePos = player.transform.position - transform.position;
 			transform.rotation = Quaternion.LookRotation (relativePos, relativeUp);
 
-
-			//use inverse tan of altitude to get distanceabovecamera with alttude - use transform.up to move camera
 	}
 }
 }

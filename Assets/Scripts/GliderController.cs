@@ -16,6 +16,8 @@ public class GliderController : MonoBehaviour {
 	public float maxAngularVelocity=1f;
 	public float rollTorque=200f;
 	public float pitchTorque=200f;
+	public float thrusterActiveThreshold=0.01f; //threshold angular acceleration for thrusters to activate
+	public float thrusterSpeed=200f;
 
 	private float totalMass;
 	private float solidRocketMass;
@@ -29,6 +31,10 @@ public class GliderController : MonoBehaviour {
 	private Rigidbody RB;
 	private GameObject atmosphere;
 	private float weight;
+	private ParticleSystem leftThruster;
+	private ParticleSystem rightThruster;
+	private ParticleSystem frontThruster;
+	private Vector3 gliderAV;
 
 
 
@@ -38,6 +44,10 @@ public class GliderController : MonoBehaviour {
 		RB = GetComponent<Rigidbody> ();
 		airDensity = FindObjectOfType<Atmosphere> ().airDensity;
 		RB.maxAngularVelocity = maxAngularVelocity;
+
+		rightThruster = GameObject.Find ("Right").GetComponent<ParticleSystem>();
+		leftThruster = GameObject.Find ("Left").GetComponent<ParticleSystem>();
+		frontThruster = GameObject.Find ("Front").GetComponent<ParticleSystem>();
 	}
 
 
@@ -93,7 +103,6 @@ public class GliderController : MonoBehaviour {
 		Debug.DrawLine (Cg.transform.position, Cg.transform.position+new Vector3(0, -weight, 0),Color.green,Mathf.Infinity);
 
 
-		//TODO - apply life and weight to cg and cp
 		//lift force - only apply if booster is inactive
 		float liftForce;
 		if (!boosterState) {
@@ -109,7 +118,48 @@ public class GliderController : MonoBehaviour {
 			RB.AddForce (liftForce*transform.up);
 			print (RB.velocity.magnitude);
 			Debug.DrawLine (Cp.transform.position, Cp.transform.position+(transform.up*10f),Color.blue,Mathf.Infinity);
-			print (liftForce);
+			//print (liftForce);
 		}
+
+		//TODO - inverted thrusters look weird - fix
+		//get angular acceleration
+		ParticleSystem.VelocityOverLifetimeModule leftThrusterSpeed=leftThruster.velocityOverLifetime;
+		ParticleSystem.VelocityOverLifetimeModule rightThrusterSpeed=rightThruster.velocityOverLifetime;
+
+		Vector3 newGliderAV=RB.angularVelocity;
+		print (newGliderAV.z - gliderAV.z);
+		if ( gliderAV.z - newGliderAV.z >= thrusterActiveThreshold) { //on roll fire thrusters (each wing in opposite directions)
+
+			ParticleSystem.MinMaxCurve Rrate = new ParticleSystem.MinMaxCurve();
+			Rrate.constantMax = thrusterSpeed; 
+			rightThrusterSpeed.y=Rrate;
+			rightThruster.Emit (20);
+
+			//invert left thruster direction and fire
+			ParticleSystem.MinMaxCurve Lrate = new ParticleSystem.MinMaxCurve();
+			Lrate.constantMax = -thrusterSpeed;
+			Lrate.constantMin=-thrusterSpeed;
+			leftThrusterSpeed.y=Lrate;
+			leftThruster.Emit(20);
+		}
+
+		if (  newGliderAV.z - gliderAV.z>= thrusterActiveThreshold) {
+			ParticleSystem.MinMaxCurve Lrate = new ParticleSystem.MinMaxCurve();
+			Lrate.constantMax = thrusterSpeed; 
+			leftThrusterSpeed.y=Lrate;
+			leftThruster.Emit (20);
+
+			//invert right thruster direction and fire
+			ParticleSystem.MinMaxCurve Rrate = new ParticleSystem.MinMaxCurve();
+			Rrate.constantMax = -thrusterSpeed; 
+			Rrate.constantMin =-thrusterSpeed;
+			rightThrusterSpeed.y=Rrate;
+			rightThruster.Emit(20);
+		}
+			
+
+		gliderAV = RB.angularVelocity;
+
+
 	}
 }
