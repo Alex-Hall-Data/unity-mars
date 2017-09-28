@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\RightGrabberController.cs" />
      <Compile Include="Assets\Scripts\RotationFreezer.cs" />
      <Compile Include="Assets\Scripts\SimpleCarController.cs" />
+     <Compile Include="Assets\Scripts\VacuumBalloon.cs" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />

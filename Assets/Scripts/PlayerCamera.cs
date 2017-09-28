@@ -13,7 +13,7 @@ public class PlayerCamera : MonoBehaviour {
 	private float yOffset;
 	private float xOffset;
 	private Vector3 offset;
-	private float tiltAngle = 30f;
+	private float tiltAngle;
 	private float xRotation;
 	private float yRotation;
 	private float zRotation;
@@ -32,7 +32,7 @@ public class PlayerCamera : MonoBehaviour {
 
 		//controler for vehicle
 		if (player.gameObject.GetComponent<SimpleCarController>() != null) {
-
+			tiltAngle = 30f;
 			defaultZOffset = -50f;
 			defaultYOffset = 50f;
 			defaultXOffset = 0f;
@@ -98,5 +98,22 @@ public class PlayerCamera : MonoBehaviour {
 			transform.rotation = Quaternion.LookRotation (relativePos, relativeUp);
 
 	}
+
+		if (player.gameObject.GetComponent<VacuumBalloon> () != null) {
+			tiltAngle = 10f;
+			defaultZOffset = -100f;
+			defaultYOffset = 10f;
+			defaultXOffset = 0f;
+
+
+			yRotation = player.transform.eulerAngles.y;
+
+			zOffset = defaultZOffset * Mathf.Cos (yRotation * Mathf.PI / 180);
+			xOffset = defaultZOffset * Mathf.Sin (yRotation * Mathf.PI / 180);
+			offset = new Vector3 (xOffset, defaultYOffset, zOffset);
+
+			transform.position = player.transform.position + offset;
+			transform.eulerAngles = new Vector3 (tiltAngle, yRotation, 0f);
+		}
 }
 }

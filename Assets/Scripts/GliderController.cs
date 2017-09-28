@@ -116,7 +116,7 @@ public class GliderController : MonoBehaviour {
 				liftForce = Mathf.Clamp (Cl * airDensity * Mathf.Pow (RB.velocity.magnitude, 2) * wingArea / 2, -weight, weight);
 			}
 			RB.AddForce (liftForce*transform.up);
-			print (RB.velocity.magnitude);
+			//print (RB.velocity.magnitude);
 			Debug.DrawLine (Cp.transform.position, Cp.transform.position+(transform.up*10f),Color.blue,Mathf.Infinity);
 			//print (liftForce);
 		}
@@ -125,9 +125,10 @@ public class GliderController : MonoBehaviour {
 		//get angular acceleration
 		ParticleSystem.VelocityOverLifetimeModule leftThrusterSpeed=leftThruster.velocityOverLifetime;
 		ParticleSystem.VelocityOverLifetimeModule rightThrusterSpeed=rightThruster.velocityOverLifetime;
+		ParticleSystem.VelocityOverLifetimeModule frontThrusterSpeed=frontThruster.velocityOverLifetime;
 
 		Vector3 newGliderAV=RB.angularVelocity;
-		print (newGliderAV.z - gliderAV.z);
+		//print (newGliderAV.z - gliderAV.z);
 		if ( gliderAV.z - newGliderAV.z >= thrusterActiveThreshold) { //on roll fire thrusters (each wing in opposite directions)
 
 			ParticleSystem.MinMaxCurve Rrate = new ParticleSystem.MinMaxCurve();
@@ -156,10 +157,25 @@ public class GliderController : MonoBehaviour {
 			rightThrusterSpeed.y=Rrate;
 			rightThruster.Emit(20);
 		}
-			
 
+
+		//pitch thruster
+		if (newGliderAV.x - gliderAV.x >= thrusterActiveThreshold) {
+			ParticleSystem.MinMaxCurve Frate = new ParticleSystem.MinMaxCurve ();
+			Frate.constantMax = thrusterSpeed; 
+			frontThrusterSpeed.y = Frate;
+			frontThruster.Emit (20);
+		}
+
+			if (gliderAV.x - newGliderAV.x  >= thrusterActiveThreshold) {
+				ParticleSystem.MinMaxCurve Frate = new ParticleSystem.MinMaxCurve();
+				Frate.constantMax = -thrusterSpeed; 
+				frontThrusterSpeed.y=Frate;
+				frontThruster.Emit (20);
+			
+	}
 		gliderAV = RB.angularVelocity;
 
-
+			
 	}
 }
