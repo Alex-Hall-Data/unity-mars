@@ -1,28 +1,43 @@
 fileFormatVersion: 2
-guid: e764ab4cf65086745b8ef74b100f2c54
-timeCreated: 1506618996
+guid: 6a55f88004a519a479bf437644f4c103
+timeCreated: 1507227540
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: Camera
-    100002: GD_mesh
-    100004: Lamp
-    100006: Sphere
-    100008: Sun
-    100010: //RootNode
+    100002: Cube
+    100004: Cylinder
+    100006: Cylinder.001
+    100008: GD_mesh
+    100010: Lamp
+    100012: Sphere
+    100014: Sun
+    100016: //RootNode
     400000: Camera
-    400002: GD_mesh
-    400004: Lamp
-    400006: Sphere
-    400008: Sun
-    400010: //RootNode
-    2300000: GD_mesh
-    2300002: Sphere
-    3300000: GD_mesh
-    3300002: Sphere
-    4300000: GD_mesh
-    4300002: Sphere
+    400002: Cube
+    400004: Cylinder
+    400006: Cylinder.001
+    400008: GD_mesh
+    400010: Lamp
+    400012: Sphere
+    400014: Sun
+    400016: //RootNode
+    2300000: Cube
+    2300002: Cylinder
+    2300004: Cylinder.001
+    2300006: GD_mesh
+    2300008: Sphere
+    3300000: Cube
+    3300002: Cylinder
+    3300004: Cylinder.001
+    3300006: GD_mesh
+    3300008: Sphere
+    4300000: Cylinder
+    4300002: Cube
+    4300004: GD_mesh
+    4300006: Sphere
+    4300008: Cylinder.001
   materials:
     importMaterials: 1
     materialName: 0
